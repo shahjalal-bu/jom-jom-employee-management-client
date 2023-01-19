@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import Format from "../../layout/Format";
 import axios from "../../utils/Axios";
 import DateFormat from "../../utils/DateFormat";
@@ -11,11 +11,11 @@ var options = {
 };
 
 const Employee = ({ data }) => {
-  console.log(data);
+  const [view, setView] = useState("Profile");
   return (
     <Format>
       <div className="container md:p-11 flex justify-center">
-        <div className="w-4/12 flex flex-col items-center">
+        <div className="w-12/12 flex flex-col items-center">
           <div className="avatar">
             <div className="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
               <Image
@@ -35,19 +35,79 @@ const Employee = ({ data }) => {
         </div>
       </div>
       <div className="p-5">
-        <h2 className="text-3xl font-bold py-2">All Attendance</h2>
-        <div className="flex flex-wrap gap-4 text-ellipsis overflow-hidden">
-          {data[0]?.attendance.map((el) => (
-            <div className="flex flex-col items-center border-2 border-gray-400 p-1 rounded-md">
-              <div className="border-b-2 border-gray-400 flex-1">
-                {new Date(el?.date).toLocaleDateString("bn-BD", options)}
+        <div className="flex justify-around">
+          <h2
+            className={`text-sm md:text-xl font-bold flex-auto mx-2 ${
+              view === "Profile" && "bg-green-400 text-white"
+            } rounded px-3 py-2`}
+            onClick={() => setView("Profile")}
+          >
+            Profile
+          </h2>
+
+          <h2
+            className={`text-sm md:text-xl font-bold flex-auto mx-2 ${
+              view === "Attendance" && "bg-green-400 text-white"
+            } rounded px-3 py-2`}
+            onClick={() => setView("Attendance")}
+          >
+            Attendance
+          </h2>
+          <h2
+            className={`text-sm md:text-xl font-bold flex-auto mx-2 ${
+              view === "SalaryStatement" && "bg-green-400 text-white"
+            } rounded px-3 py-2`}
+            onClick={() => setView("SalaryStatement")}
+          >
+            Salary Statement
+          </h2>
+        </div>
+        <div>
+          <div className="container py-3 px-4">
+            {view === "Profile" && (
+              <div className="overflow-x-auto">
+                <table className="table w-full">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Job</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Cy Ganderton</td>
+                      <td>Quality Control Specialist</td>
+                    </tr>
+                    <tr>
+                      <td>Hart Hagerty</td>
+                      <td>Desktop Support Technician</td>
+                    </tr>
+                    <tr>
+                      <td>Tax Accountant</td>
+                      <td>Red</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-              <div className="badge my-2 font-bold">
-                {el?.present ? "Present" : "Absent"}
+            )}
+            {view === "Attendance" && (
+              <div className="flex flex-wrap gap-4 text-ellipsis overflow-hidden">
+                <h2>All Attendances</h2>
+                {data[0]?.attendance.map((el) => (
+                  <div className="flex flex-col items-center border-2 border-gray-400 p-1 rounded-md">
+                    <div className="border-b-2 border-gray-400 flex-1">
+                      {new Date(el?.date).toLocaleDateString("bn-BD", options)}
+                    </div>
+                    <div className="badge my-2 font-bold">
+                      {el?.present ? "Present" : "Absent"}
+                    </div>
+                    <div className="">{el?.comment}</div>
+                  </div>
+                ))}
               </div>
-              <div className="">{el?.comment}</div>
-            </div>
-          ))}
+            )}
+            {view === "SalaryStatement" && <div>this salary state ment</div>}
+          </div>
         </div>
       </div>
     </Format>

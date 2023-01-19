@@ -71,7 +71,6 @@ const index = ({ data }) => {
 export async function getServerSideProps() {
   const res = await axios("/employee");
   const data = await res.data;
-
   // Pass data to the page via props
   return { props: { data } };
 }
