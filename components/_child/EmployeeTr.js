@@ -32,9 +32,7 @@ const EmployeeTr = ({ name, role, id, setEmployData, employData, date, photo }) 
 
     setEmployData(copyEmployData);
   }
-  function handleRadioFalse(event) {
-    setPresent(e.target.value);
-  }
+  
 
   function handleRadioChangeWithComment() {
     let copyEmployData = [...employData];

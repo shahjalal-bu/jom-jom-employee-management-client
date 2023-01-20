@@ -8,6 +8,8 @@ import "react-datepicker/dist/react-datepicker.css";
 const index = ({ data }) => {
   const [employData, setEmployData] = useState([]);
   const [startDate, setStartDate] = useState(new Date());
+  const [isdisable, setIsDisable] = useState(false);
+
   // console.log(employData.length);
   // console.log(startDate);
 
@@ -18,14 +20,17 @@ const index = ({ data }) => {
     day: "numeric",
   };
 
- 
-
   const handleAttaindence = async () => {
+    setIsDisable(true);
     if (data?.length === employData?.length) {
       try {
         const response = await axios.post("/attendance", employData);
         if (response.status === 200) {
           alert("Success: Data was posted successfully!");
+          setStartDate(new Date());
+          setEmployData([]);
+          setIsDisable(false);
+          window.location.reload();
         }
         console.log(response.data);
       } catch (error) {
@@ -33,11 +38,10 @@ const index = ({ data }) => {
       }
     } else {
       alert("You have to put all employee attaindence !");
+      setIsDisable(false);
     }
   };
-  const month = startDate.toLocaleString("en-en", { month: "long" });
-  const year = startDate.getFullYear();
-  const day = startDate.toLocaleString("de-de", { day: "2-digit" });
+
   return (
     <Format>
       <div className="container text-center text-2xl">
@@ -62,7 +66,11 @@ const index = ({ data }) => {
           />
         ))}
       </div>
-      <button className="btn btn-block neutral" onClick={handleAttaindence}>
+      <button
+        className="btn btn-block neutral my-7"
+        disabled={isdisable}
+        onClick={handleAttaindence}
+      >
         Submit
       </button>
     </Format>
