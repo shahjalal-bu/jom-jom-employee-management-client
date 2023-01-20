@@ -2,20 +2,31 @@ import Image from "next/image";
 import React, { useState } from "react";
 import axios from "../../utils/Axios";
 
-const EmployeeTr = ({ name, role, id, setEmployData, employData, date, photo }) => {
-  let [present, setPresent] = useState(true);
+const EmployeeTr = ({
+  name,
+  role,
+  id,
+  setEmployData,
+  employData,
+  date,
+  photo,
+}) => {
+  let [attendance, setAttendance] = useState(1);
   const [comment, setComment] = useState("");
-  function handleRadioChange(event) {
+
+  //handle function for present
+
+  function handleRadioPresent() {
     setComment("");
-    setPresent("");
-    const newValue = event.target.value;
+    setAttendance("");
+    const newValue = 1;
     let copyEmployData = [...employData];
     let index = copyEmployData.findIndex((item) => item.employeeId === id);
     if (index !== -1) {
       copyEmployData[index] = {
         employeeId: id,
         comment,
-        present: newValue,
+        attendance: newValue,
         date,
       };
     } else {
@@ -24,7 +35,7 @@ const EmployeeTr = ({ name, role, id, setEmployData, employData, date, photo }) 
         {
           employeeId: id,
           comment,
-          present: newValue,
+          attendance: newValue,
           date,
         },
       ];
@@ -32,7 +43,38 @@ const EmployeeTr = ({ name, role, id, setEmployData, employData, date, photo }) 
 
     setEmployData(copyEmployData);
   }
-  
+
+  //handle if half
+
+  function handleRadioHalf() {
+    setComment("");
+    setAttendance("");
+    const newValue = 0.5;
+    let copyEmployData = [...employData];
+    let index = copyEmployData.findIndex((item) => item.employeeId === id);
+    if (index !== -1) {
+      copyEmployData[index] = {
+        employeeId: id,
+        comment,
+        attendance: newValue,
+        date,
+      };
+    } else {
+      copyEmployData = [
+        ...copyEmployData,
+        {
+          employeeId: id,
+          comment,
+          attendance: newValue,
+          date,
+        },
+      ];
+    }
+
+    setEmployData(copyEmployData);
+  }
+
+  //handle if absent
 
   function handleRadioChangeWithComment() {
     let copyEmployData = [...employData];
@@ -41,7 +83,7 @@ const EmployeeTr = ({ name, role, id, setEmployData, employData, date, photo }) 
       copyEmployData[index] = {
         employeeId: id,
         comment,
-        present: present,
+        attendance: attendance,
         date,
       };
     } else {
@@ -50,7 +92,7 @@ const EmployeeTr = ({ name, role, id, setEmployData, employData, date, photo }) 
         {
           employeeId: id,
           comment,
-          present: present,
+          attendance: attendance,
           date,
         },
       ];
@@ -61,17 +103,17 @@ const EmployeeTr = ({ name, role, id, setEmployData, employData, date, photo }) 
     setPresent("");
   }
 
-  function format(inputDate) {
-    let date = new Date(inputDate);
-    return date.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
-  }
+  // function format(inputDate) {
+  //   let date = new Date(inputDate);
+  //   return date.toLocaleDateString("en-GB", {
+  //     day: "2-digit",
+  //     month: "2-digit",
+  //     year: "numeric",
+  //   });
+  // }
 
   let index = employData.find((item) => item.employeeId === id);
-  console.log("object", index);
+  // console.log("object", index);
 
   return (
     <div className={`p-2 rounded shadow-sm ${index && "bg-red-100"}`}>
@@ -102,8 +144,18 @@ const EmployeeTr = ({ name, role, id, setEmployData, employData, date, photo }) 
                 type="radio"
                 name={`${name}`}
                 className="ml-2 radio checked:bg-blue-500"
-                value="true"
-                onChange={handleRadioChange}
+                value=""
+                onChange={handleRadioPresent}
+              />
+            </label>
+            <label className="label cursor-pointer">
+              <span className="label-text">Half</span>
+              <input
+                type="radio"
+                name={`${name}`}
+                className="ml-2 radio checked:bg-blue-500"
+                value=""
+                onChange={handleRadioHalf}
               />
             </label>
             <div className="form-control">
@@ -113,8 +165,8 @@ const EmployeeTr = ({ name, role, id, setEmployData, employData, date, photo }) 
                   type="radio"
                   name={`${name}`}
                   className="ml-2 radio checked:bg-red-500 "
-                  value="false"
-                  onChange={(e) => setPresent(e.target.value)}
+                  value=""
+                  onChange={(e) => setPresent(0)}
                 />
               </label>
             </div>
@@ -122,7 +174,7 @@ const EmployeeTr = ({ name, role, id, setEmployData, employData, date, photo }) 
         </div>
       </div>
 
-      {present === "false" && (
+      {attendance == "0" && (
         <div className="flex my-2">
           <input
             type="text"

@@ -91,22 +91,65 @@ const Employee = ({ data }) => {
               </div>
             )}
             {view === "Attendance" && (
-              <div className="flex flex-wrap gap-4 text-ellipsis overflow-hidden">
-                <h2>All Attendances</h2>
-                {data[0]?.attendance.map((el) => (
-                  <div className="flex flex-col items-center border-2 border-gray-400 p-1 rounded-md">
-                    <div className="border-b-2 border-gray-400 flex-1">
-                      {new Date(el?.date).toLocaleDateString("bn-BD", options)}
+              <div>
+                <h2 className="text-2xl py-3">All Attendances</h2>
+                <div className="flex flex-wrap gap-4 text-ellipsis overflow-hidden">
+                  {data[0]?.attendance.map((el) => (
+                    <div className="flex flex-col items-center border-2 border-gray-400 p-1 rounded-md flex-1">
+                      <div className="border-b-2 border-gray-400 whitespace-nowrap">
+                        {new Date(el?.date).toLocaleDateString(
+                          "bn-BD",
+                          options
+                        )}
+                      </div>
+                      <div className="badge my-2 font-bold">
+                        {el?.attendance === 1 && "Present"}
+                        {el?.attendance === 0 && "Absent"}
+                        {el?.attendance === 0.5 && "Half"}
+                      </div>
+                      <div className="">{el?.comment}</div>
                     </div>
-                    <div className="badge my-2 font-bold">
-                      {el?.present ? "Present" : "Absent"}
-                    </div>
-                    <div className="">{el?.comment}</div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             )}
-            {view === "SalaryStatement" && <div>this salary state ment</div>}
+            {view === "SalaryStatement" && (
+              <div>
+                <h3>Total Working Day: {data[0]?.attendance?.length}</h3>
+                <h3>
+                  Total Attain Day:{" "}
+                  {
+                    (data[0]?.attendance?.filter((el) => el.attendance === 1))
+                      .length
+                  }
+                </h3>
+                <h3>
+                  Total Half Day:{" "}
+                  {
+                    (data[0]?.attendance?.filter((el) => el.attendance === 0.5))
+                      .length
+                  }
+                </h3>
+                <h3>
+                  Total Missing Day:{" "}
+                  {
+                    (data[0]?.attendance?.filter((el) => el.attendance === 0))
+                      .length
+                  }
+                </h3>
+                <h3>
+                  Total Salary:{" "}
+                  {(data[0]?.attendance?.filter((el) => el.attendance === 1))
+                    .length *
+                    data[0]?.salary +
+                    ((data[0]?.attendance?.filter(
+                      (el) => el.attendance === 0.5
+                    )).length *
+                      data[0]?.salary) /
+                      2}
+                </h3>
+              </div>
+            )}
           </div>
         </div>
       </div>
