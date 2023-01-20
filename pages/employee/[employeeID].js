@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React, { useState } from "react";
+import SalaryCalculation from "../../components/_child/SalaryCalculation";
 import Format from "../../layout/Format";
 import axios from "../../utils/Axios";
 import DateFormat from "../../utils/DateFormat";
@@ -32,6 +33,7 @@ const Employee = ({ data }) => {
           </div>
           <div className="py-1 px-3 text-3xl my-1">{data[0].name}</div>
           <div className="py-1 px-3 text-xl">{data[0].role}</div>
+  
         </div>
       </div>
       <div className="p-5">
@@ -114,41 +116,7 @@ const Employee = ({ data }) => {
               </div>
             )}
             {view === "SalaryStatement" && (
-              <div>
-                <h3>Total Working Day: {data[0]?.attendance?.length}</h3>
-                <h3>
-                  Total Attain Day:{" "}
-                  {
-                    (data[0]?.attendance?.filter((el) => el.attendance === 1))
-                      .length
-                  }
-                </h3>
-                <h3>
-                  Total Half Day:{" "}
-                  {
-                    (data[0]?.attendance?.filter((el) => el.attendance === 0.5))
-                      .length
-                  }
-                </h3>
-                <h3>
-                  Total Missing Day:{" "}
-                  {
-                    (data[0]?.attendance?.filter((el) => el.attendance === 0))
-                      .length
-                  }
-                </h3>
-                <h3>
-                  Total Salary:{" "}
-                  {(data[0]?.attendance?.filter((el) => el.attendance === 1))
-                    .length *
-                    data[0]?.salary +
-                    ((data[0]?.attendance?.filter(
-                      (el) => el.attendance === 0.5
-                    )).length *
-                      data[0]?.salary) /
-                      2}
-                </h3>
-              </div>
+              <SalaryCalculation data={data} />
             )}
           </div>
         </div>

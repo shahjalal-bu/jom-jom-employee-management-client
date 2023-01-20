@@ -100,7 +100,7 @@ const EmployeeTr = ({
 
     setEmployData(copyEmployData);
     setComment("");
-    setPresent("");
+    setAttendance("");
   }
 
   // function format(inputDate) {
@@ -113,10 +113,16 @@ const EmployeeTr = ({
   // }
 
   let index = employData.find((item) => item.employeeId === id);
+  console.log(index?.attendance);
   // console.log("object", index);
 
   return (
-    <div className={`p-2 rounded shadow-sm ${index && "bg-red-100"}`}>
+    <div
+      className={`p-2 rounded shadow-sm ${
+        index?.attendance === 1 && "bg-green-100"
+      } ${index?.attendance === 0 && "bg-red-100"}
+      ${index?.attendance === 0.5 && "bg-yellow-100"}`}
+    >
       <div className="flex items-center justify-around space-x-3 shadow py-2 px-3 rounded">
         <div className="avatar">
           <div className="mask mask-squircle w-12 h-12">
@@ -148,6 +154,18 @@ const EmployeeTr = ({
                 onChange={handleRadioPresent}
               />
             </label>
+            <div className="form-control">
+              <label className="label cursor-pointer">
+                <span className="label-text">Absent</span>
+                <input
+                  type="radio"
+                  name={`${name}`}
+                  className="ml-2 radio checked:bg-red-500 "
+                  value=""
+                  onChange={() => setAttendance(0)}
+                />
+              </label>
+            </div>
             <label className="label cursor-pointer">
               <span className="label-text">Half</span>
               <input
@@ -158,18 +176,6 @@ const EmployeeTr = ({
                 onChange={handleRadioHalf}
               />
             </label>
-            <div className="form-control">
-              <label className="label cursor-pointer">
-                <span className="label-text">Absent</span>
-                <input
-                  type="radio"
-                  name={`${name}`}
-                  className="ml-2 radio checked:bg-red-500 "
-                  value=""
-                  onChange={(e) => setPresent(0)}
-                />
-              </label>
-            </div>
           </div>
         </div>
       </div>
