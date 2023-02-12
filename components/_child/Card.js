@@ -1,9 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-
 const Card = ({ name, role, id, photo }) => {
-  console.log(photo);
   return (
     <div className="p-2 rounded shadow-sm">
       <div className="flex items-center space-x-3 shadow py-2 px-3 rounded">
