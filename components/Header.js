@@ -89,10 +89,10 @@ const Header = () => {
           </div>
         ) : (
           <>
-            <Link href={"register"} className="btn btn-sm">
+            <Link href={"/register"} className="btn btn-sm">
               Signup
             </Link>
-            <Link href={"login"} className="btn btn-sm ml-2">
+            <Link href={"/login"} className="btn btn-sm ml-2">
               Login
             </Link>
           </>
