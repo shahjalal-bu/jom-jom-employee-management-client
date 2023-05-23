@@ -40,6 +40,7 @@ const Employee = ({ data }) => {
       `/employee/${router.query.employeeID}?year=${year}&month=${month}`
     );
   }, []);
+  console.log(data);
   return (
     <Format>
       <div className="container md:p-11 flex justify-center">

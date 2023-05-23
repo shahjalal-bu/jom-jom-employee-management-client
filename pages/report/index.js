@@ -13,7 +13,6 @@ const index = () => {
 };
 
 export default index;
-
 const Col = ({ name }) => (
   <div className="flex justify-between gap-2 bg-gray-100">
     <div>{name}</div>

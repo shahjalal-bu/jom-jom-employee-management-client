@@ -9,13 +9,13 @@ const PrivateRoute = ({ children }) => {
   const [pageLoading, setPageLoading] = useState(true);
 
   useEffect(() => {
-    if (!currentUser) {
+    if (!currentUser && !loading) {
       router.push("/login");
     } else {
       setPageLoading(false);
     }
   }, []);
-  
+
   if (loading) {
     return <div>Loading...</div>;
   }
